@@ -8,11 +8,11 @@
   <packaging>war</packaging>
   <version>1.0</version>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.10.RELEASE</version>
-  </parent>
+<!--   <parent> -->
+<!--     <groupId>org.springframework.boot</groupId> -->
+<!--     <artifactId>spring-boot-starter-parent</artifactId> -->
+<!--     <version>1.5.10.RELEASE</version> -->
+<!--   </parent> -->
   <name>painel-web</name>
 
   <properties>
@@ -54,36 +54,37 @@
 <!--       <groupId>org.postgresql</groupId> -->
 <!--       <artifactId>postgresql</artifactId> -->
 <!--     </dependency> -->
-    <dependency>
-      <groupId>com.zaxxer</groupId>
-      <artifactId>HikariCP</artifactId>
-      <version>2.7.7</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>webjars-locator</artifactId>
-      <version>0.32-1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>jquery</artifactId>
-      <version>${webjars-jquery.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>jquery-ui</artifactId>
-      <version>${webjars-jquery-ui.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>bootstrap</artifactId>
-      <version>${webjars-bootstrap.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
-    </dependency>
+
+<!--     <dependency> -->
+<!--       <groupId>com.zaxxer</groupId> -->
+<!--       <artifactId>HikariCP</artifactId> -->
+<!--       <version>2.7.7</version> -->
+<!--     </dependency> -->
+<!--     <dependency> -->
+<!--       <groupId>org.webjars</groupId> -->
+<!--       <artifactId>webjars-locator</artifactId> -->
+<!--       <version>0.32-1</version> -->
+<!--     </dependency> -->
+<!--     <dependency> -->
+<!--       <groupId>org.webjars</groupId> -->
+<!--       <artifactId>jquery</artifactId> -->
+<!--       <version>${webjars-jquery.version}</version> -->
+<!--     </dependency> -->
+<!--     <dependency> -->
+<!--       <groupId>org.webjars</groupId> -->
+<!--       <artifactId>jquery-ui</artifactId> -->
+<!--       <version>${webjars-jquery-ui.version}</version> -->
+<!--     </dependency> -->
+<!--     <dependency> -->
+<!--       <groupId>org.webjars</groupId> -->
+<!--       <artifactId>bootstrap</artifactId> -->
+<!--       <version>${webjars-bootstrap.version}</version> -->
+<!--     </dependency> -->
+<!--     <dependency> -->
+<!--       <groupId>org.springframework.boot</groupId> -->
+<!--       <artifactId>spring-boot-devtools</artifactId> -->
+<!--       <scope>runtime</scope> -->
+<!--     </dependency> -->
     
 	<dependency>
 	    <groupId>org.postgresql</groupId>
@@ -120,23 +121,23 @@
   </dependencies>
 
   <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <warSourceDirectory>WebContent</warSourceDirectory>
-        </configuration>
-      </plugin>
+<!--     <sourceDirectory>src/main/java</sourceDirectory> -->
+<!--     <plugins> -->
+<!--       <plugin> -->
+<!--         <artifactId>maven-compiler-plugin</artifactId> -->
+<!--         <version>3.6.1</version> -->
+<!--         <configuration> -->
+<!--           <source>1.8</source> -->
+<!--           <target>1.8</target> -->
+<!--         </configuration> -->
+<!--       </plugin> -->
+<!--       <plugin> -->
+<!--         <artifactId>maven-war-plugin</artifactId> -->
+<!--         <version>3.0.0</version> -->
+<!--         <configuration> -->
+<!--           <warSourceDirectory>WebContent</warSourceDirectory> -->
+<!--         </configuration> -->
+<!--       </plugin> -->
 
 <!--       <plugin> -->
 <!--         <groupId>org.springframework.boot</groupId> -->
