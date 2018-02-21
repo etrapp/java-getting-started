@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<title>Painel - Status dos Processos</title>
+	<link rel="icon" type="image/ico" href="images/favicon.ico" />
+
+	<style type="text/css">
+		.ui-panelgrid > * > tr, .ui-panelgrid > * > tr > td.ui-panelgrid-cell {
+	    	border: none;
+		}
+	</style>
+</h:head>
+<h:body>
+
+	<div id="divPanel" class="container" >
+		<center>
+			<p:panel id="panel-signup" header="Cadastro de Status dos Processos" resizable="false">
+				<h:form  id="lancamento" >
+<!-- 					<p:messages id="mensagens" autoUpdate="true" closable="true" /> -->
+				    <p:growl id="mensagens" sticky="false" life="4000" />  
+					<p:panelGrid columns="4" cellpadding="2">
+					
+						<p:outputLabel for="data_h" value="Data" />
+						<p:calendar id="data_h" value="#{painelBean.data}" pattern="dd/MM/yyyy" mask="true" locale="pt_BR" showButtonPanel="false" style="width: 93px;" effect="slide" title="Data Atual" />
+					
+						<p:outputLabel for="processo" value="Processo Infocell" />			    
+				        <p:selectOneMenu id="processo" value="#{painelBean.idProcesso}">
+				        	<f:selectItem itemLabel="Selecione" itemValue="" />
+				            <f:selectItems value="#{painelBean.listaProcesso}" var="tpProcesso" itemLabel="#{tpProcesso.nome}" itemValue="#{tpProcesso.id}" />
+				        </p:selectOneMenu>
+
+						<p:outputLabel for="status" value="Status" />
+						<p:autoComplete id="status" value="#{painelBean.idStatus}" maxlength="20" title="Status"></p:autoComplete>
+
+						<p:outputLabel for="etapa" value="Etapa" />
+						<p:autoComplete id="etapa" value="#{painelBean.idEtapa}" maxlength="20" title="Etapa"></p:autoComplete>
+
+					    
+						<p:outputLabel for="responsavel" value="Usuário" />
+						<p:autoComplete id="responsavel" value="#{painelBean.responsavel}" maxlength="20" title="Responsável"></p:autoComplete>
+
+									
+						<p:outputLabel for="descricao" value="descrição" />
+						<p:inputText id="descricao" value="#{painelBean.descricao}" maxlength="100" title="descrição" autocomplete="false" ></p:inputText>
+
+
+					</p:panelGrid>
+					<br></br>
+					<p:commandButton id="botao_salvar" value="Salvar" action="#{painelBean.salvar()}" ajax="true" update="mensagens,botao_salvar,resultado,@form" onclick="jQuery(this).addClass('ui-state-disabled')"/>
+					&nbsp;
+					<p:commandButton id="botao_limpar" value="Limpar" action="#{painelBean.limparFormulario()}" ajax="true" update="mensagens,botao_limpar,resultado,@form" onclick="jQuery(this).addClass('ui-state-disabled')"/>
+				</h:form>
+
+			</p:panel>
+		</center>
+	</div>
+	
+	
+	<div id="lista" class="conteudo">
+			
+			<p:outputPanel id="resultado">
+
+				<div>
+					<center>
+					<p:panel id="panel-listagem" header="Listagem de Status dos Processos" resizable="false">
+
+					<div>
+						<p:dataTable id="dtPendentes" value="#{painelBean.listarItensPainel()}" var="obj" 
+							styleClass="table table-striped" resizeMode="expand" emptyMessage="Sem registros"				
+        					scrollable="true" scrollWidth="100%" scrollHeight="350"
+        					paginator="true" rows="15" 
+                 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+                 			currentPageReportTemplate="Exibindo {startRecord}-{endRecord} de {totalRecords}"
+                 			lazy="true" paginatorAlwaysVisible="false">						
+
+
+							<p:column headerText="Data" exportable="true" width="100">
+								<h:outputText id="outDt" value="#{obj.data}">
+									<f:convertDateTime pattern="dd/MM/yyyy"/>
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Processo" exportable="true" width="100" >
+								<h:outputText id="outProcesso" value="#{obj.nmProcesso}"/>	
+							</p:column>
+							
+							<p:column headerText="Etapa" exportable="true" width="80"  >
+								<h:outputText id="outEtapa" value="#{obj.cdEtapa}"/>	
+							</p:column>
+														
+							<p:column headerText="Status" exportable="true" width="100" >
+								<h:outputText id="outStatus" value="#{obj.status}"/>	
+							</p:column>
+							
+							<p:column headerText="Usuário" exportable="true" width="100" >
+								<h:outputText id="outUsuario" value="#{obj.usuario}"/>	
+							</p:column>
+							
+							<p:column headerText="Mensagem" exportable="true" width="100" >
+								<h:outputText id="outMensagem" value="#{obj.dsMensagem}"/>	
+							</p:column>
+							
+							
+						</p:dataTable>
+
+					</div>
+					</p:panel>
+					</center>
+					
+				</div>
+				
+			</p:outputPanel>
+			
+	</div>
+
+
+</h:body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#mlistagem.xhtml" PATH="/mlistagem.xhtml"
+  SHAPE="88,48,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#mlistagem.xhtml:0" NAME="item"
+   PATH="/mlistagem.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="mstatus::#mstatus.xhtml" NAME="output"
+    PATH="/mstatus.xhtml" TARGET="rules:#mstatus.xhtml" TITLE="mstatus" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#mstatus.xhtml" PATH="/mstatus.xhtml"
+  SHAPE="320,72,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#mstatus.xhtml:0" NAME="item"
+   PATH="/mstatus.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="mlistagem::#mlistagem.xhtml" NAME="output"
+    PATH="/mlistagem.xhtml" TARGET="rules:#mlistagem.xhtml"
+    TITLE="mlistagem" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#mcx.xhtml" PATH="/mcx.xhtml"
+  SHAPE="96,160,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+</PROCESS>

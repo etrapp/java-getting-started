@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+	  xmlns:pm="http://primefaces.org/mobile"	>
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+
+<h:head>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<title>Painel</title>
+	<link rel="icon" type="image/ico" href="images/favicon.ico" />
+<!-- 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/> -->
+
+	<!-- Graficos -->
+	<script src="scripts/highcharts.js"></script>
+	<script src="scripts/rendercharts.js"></script>
+	<script src="scripts/theme.js"></script>	
+
+</h:head>
+<h:body>
+
+<p:growl id="mensagem"  sticky="false" life="800" />
+
+<pm:page id="lancamento">
+
+	<pm:header title="Painel" swatch="b">
+		<p:button outcome="pm:lancamento?transition=flip" value="Listar" icon="ui-icon-bullets" styleClass="ui-btn-left ui-btn-inline" />
+		<p:button outcome="pm:dashboard?transition=flip" value="Dashboard" icon="ui-icon-star" styleClass="ui-btn-rigth ui-btn-inline"></p:button>
+	</pm:header>
+
+
+	<pm:content>
+<!-- 		<p:messages id="mensagem" autoUpdate="true" closable="true" /> -->
+
+		<p:dataTable id="dtPendentes" value="#{painelBean.listarPainelDistinct()}" var="obj" 
+			styleClass="table table-striped" resizeMode="expand" emptyMessage="Sem registros"				
+    					scrollable="true" 
+    					paginator="true" rows="8" 
+             			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+             			currentPageReportTemplate="Exibindo {startRecord}-{endRecord} de {totalRecords}"
+             			lazy="true" paginatorAlwaysVisible="false">
+
+<!-- 
+			<p:column headerText="Processo">
+				<p:commandButton action="{painelBean.modalOBS(obj.nmProcesso)}" ajax="true"  value="{obj.nmProcesso}" update="lancamento:dlgOBS">
+				</p:commandButton>
+			</p:column>
+ -->			
+			
+			<p:column headerText="Processo">
+				<p:commandButton  action="#{painelBean.modalDetalhe(obj.nmProcesso)}" value="#{obj.nmProcesso}" ajax="true"  update="listagem,reprocessar">
+					<f:param name="processoDetalhe" value="#{obj.nmProcesso}"></f:param>
+				</p:commandButton>
+			</p:column>
+						
+		</p:dataTable>
+
+
+	    <p:dialog header="Detalhe" resizable="false" showEffect="fade" id="dlgOBS" widgetVar="dlgOBS" >
+	        <p:panelGrid id="output" columns="1">
+	 
+				<h:form id="formModal">
+					<div style="padding: 20px;">
+					
+						<p:outputLabel value="#{painelBean.modalMsg}" />
+				
+						<p:commandButton  styleClass="btn" onclick="PF('dlgOBS').hide()" value="Fechar" />  
+					</div>
+				</h:form>
+	        </p:panelGrid>
+	    </p:dialog>
+
+		
+
+	</pm:content>		
+</pm:page>
+
+
+<pm:page id="listagem">
+	<pm:header title="Painel" swatch="b">
+		<p:button outcome="pm:lancamento?transition=flip" value="Voltar" icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline"  />
+		<p:button outcome="pm:reprocessar?transition=flip" value="Reprocessar" icon="ui-icon-plus" styleClass="ui-btn-rigth ui-btn-inline"></p:button>
+
+	</pm:header>
+
+	<pm:content>
+<!-- 		<p:messages id="mensagem" autoUpdate="true" closable="true" showSummary="true" /> -->
+<!-- 		<p:growl id="mensagem"  sticky="false" life="800" /> -->
+		
+		<p:panel header="#{painelBean.detalhePainel.nmProcesso}">
+		<p:panelGrid columns="2" rendered="true" >
+			<p:row>
+				<p:outputLabel value="Status:"></p:outputLabel>
+			</p:row>
+			<p:row>		
+				<p:outputLabel value="#{painelBean.detalhePainel.status}"></p:outputLabel>
+			</p:row>
+			<p:row>		
+				<p:outputLabel value="SLA:"></p:outputLabel>
+			</p:row>
+			<p:row>		
+				<p:outputLabel value="81%"></p:outputLabel>
+			</p:row>
+			<p:row>		
+				<p:outputLabel value="Etapa:"></p:outputLabel>
+			</p:row>
+			<p:row>		
+				<p:outputLabel value="#{painelBean.detalhePainel.cdEtapa}"></p:outputLabel>
+			</p:row>
+		</p:panelGrid>
+		</p:panel>
+						
+	
+	
+		
+	</pm:content>
+</pm:page>
+
+
+<pm:page id="dashboard">
+
+	<pm:header title="Painel" swatch="b">
+		<p:button outcome="pm:lancamento?transition=flip" value="Voltar" icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline"  />
+	</pm:header>
+
+	<pm:content>
+<!-- 		<p:growl id="mensagem"  sticky="false" life="800" /> -->
+
+		<div class="formulario correcao-row pendencias">
+
+		<p:panel header="Gráfico (demonstração)">
+		<p:panelGrid columns="1" rendered="true" >
+
+			<p:outputPanel id="resultado">	
+				<center>
+					<img src="img/Pie-chart.jpg" />
+				</center>
+			</p:outputPanel>
+
+		</p:panelGrid>
+		</p:panel>
+
+		</div>
+		
+		
+	<div class="limpador"></div>
+		
+	</pm:content>
+
+</pm:page>
+
+
+<pm:page id="reprocessar">
+
+	<pm:header title="Painel" swatch="b">
+		<p:button outcome="pm:listagem?transition=flip" value="Voltar" icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline"  />
+	</pm:header>
+
+	<pm:content>
+<!-- 		<p:growl id="mensagem"  sticky="false" life="800" /> -->
+
+		<div class="formulario correcao-row pendencias">
+
+		<p:panel header="Reprocessar (demonstração)">
+		<p:panelGrid columns="2" rendered="true" >
+			<p:row>		
+				<p:outputLabel value="Processo"></p:outputLabel>
+			</p:row>
+			<p:row>		
+				<p:outputLabel value="#{painelBean.detalhePainel.nmProcesso}"></p:outputLabel>
+			</p:row>
+			<p:row>
+				<p:outputLabel value="Status"></p:outputLabel>
+			</p:row>
+			<p:row>		
+				<p:outputLabel value="#{painelBean.detalhePainel.status}"></p:outputLabel>
+			</p:row>
+			<p:row style="collspan=2">		
+			    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+			     <p:outputLabel for="console" value="Modo" />
+			        <p:selectOneRadio id="console" >
+			            <f:selectItem itemLabel="Total" itemValue="Total" />
+			            <f:selectItem itemLabel="Parcial" itemValue="Parcial" />
+			        </p:selectOneRadio>
+			    </h:panelGrid>
+			</p:row>
+		</p:panelGrid>
+		</p:panel>
+	
+		<p:commandButton  value="Reprocessar" />
+	
+		</div>
+		
+		
+	<div class="limpador"></div>
+		
+	</pm:content>
+
+</pm:page>
+
+
+</h:body>
+</html>
