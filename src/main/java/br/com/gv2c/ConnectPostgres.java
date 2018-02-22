@@ -13,6 +13,10 @@ public class ConnectPostgres {
 		
 		String dbUrl = System.getenv("JDBC_DATABASE_URL");
 		
+		System.out.println("DB:::::::::::::::" + dbUrl);
+		
+		dbUrl = "postgres://ffmabncveoxuow:e889257a35e423a552cdeb10c8dc75c11b0936dc51775de44794c49bc7da68ee@ec2-54-227-252-237.compute-1.amazonaws.com:5432/d6m6n1dg2c3phr";
+		
 		return createConnection(dbUrl);
 
 	}
