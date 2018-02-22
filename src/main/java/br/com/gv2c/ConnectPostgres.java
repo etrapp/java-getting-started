@@ -1,5 +1,6 @@
 package br.com.gv2c;
 
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,43 +10,24 @@ public class ConnectPostgres {
 	
 	private static Connection con = null;
 	
-//	public static Connection createConnection() {
-//		
-//		String dbUrl = System.getenv("JDBC_DATABASE_URL");
-//		
-//		System.out.println("DB:::::::::::::::" + dbUrl);
-//		
-//		dbUrl = "postgres://ffmabncveoxuow:e889257a35e423a552cdeb10c8dc75c11b0936dc51775de44794c49bc7da68ee@ec2-54-227-252-237.compute-1.amazonaws.com:5432/d6m6n1dg2c3phr";
-//		
-//		return createConnection(dbUrl);
-//
-//	}
-	
-	
-	public static Connection createConnection()  {
-
-		if(con != null) {
-			try {
-				if (con.isValid(0)) {
-					return con;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
+	public static Connection createConnection() {
+		
 		try {
-			String dbUrl = System.getenv("JDBC_DATABASE_URL");
-			return DriverManager.getConnection(dbUrl);
-		} catch(Exception e) {
+			URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+			String username = dbUri.getUserInfo().split(":")[0];
+			String password = dbUri.getUserInfo().split(":")[1];
+			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+			return createConnection(dbUrl, username, password);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return null;
+
 	}
 	
-	
-	public static Connection createConnection(String url) {
+	public static Connection createConnection(String url, String user, String passwd) {
 		if(con != null) {
 			try {
 				if (con.isValid(0)) {
@@ -64,7 +46,7 @@ public class ConnectPostgres {
 		}
 
 		try {
-			con = DriverManager.getConnection(url);
+			con = DriverManager.getConnection(url, user, passwd);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -91,7 +73,32 @@ public class ConnectPostgres {
 			e.printStackTrace();
 		}
 	}
-   
+
+
+    public static void main(String[] args)
+    {
+        String driver = "org.postgresql.Driver";
+        String user   = "postgres";
+        String senha = "admin";
+        String url      = "jdbc:postgresql://localhost:5432/postgres";
+        try
+        {
+            Class.forName(driver);
+            Connection con = null;
+            con = (Connection) DriverManager.getConnection(url, user, senha);
+            System.out.println("Conexao realizada com sucesso.");
+//            teste(con);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            System.err.print(ex.getMessage());
+        } 
+        catch (SQLException e)
+        {
+            System.err.print(e.getMessage());
+        }
+    }
+    
     
     public static void teste(Connection con) throws SQLException {
     	
