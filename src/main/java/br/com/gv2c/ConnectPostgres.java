@@ -8,28 +8,19 @@ import java.sql.SQLException;
 public class ConnectPostgres {
 	
 	private static Connection con = null;
-
+	
 	public static Connection createConnection() {
 		
-//        String driver = "org.postgresql.Driver";
-//        String user   = "postgres";
-//        String senha = "admin";
-//        String url      = "jdbc:postgresql://localhost:5432/postgres";
+		String dbUrl = System.getenv("JDBC_DATABASE_URL");
 		
-//		return createConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "admin");
-		return createConnection("jdbc:postgresql://ec2-23-21-195-249.compute-1.amazonaws.com:5432/df22e01vn35is3", "ubgbnkvnqylpqe", "7ac9f5261ee1636e80661bc2982251c6cb51ccf7b36f3c6d399bf1a11230aa54");
+		return createConnection(url);
 
 	}
 	
-	public static Connection createConnection(String url, String user, String passwd) {
-//		System.out.println("-------- MySQL JDBC Connection ------------");
-		//Connection con =ConnectDbFactory.createConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "admin");
-		
+	public static Connection createConnection(String url) {
 		if(con != null) {
 			try {
 				if (con.isValid(0)) {
-//				if (!con.isClosed()) {
-//					System.out.println("conexão existente e valida....");
 					return con;
 				}
 			} catch (SQLException e) {
@@ -45,7 +36,7 @@ public class ConnectPostgres {
 		}
 
 		try {
-			con = DriverManager.getConnection(url, user, passwd);
+			con = DriverManager.getConnection(url);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
