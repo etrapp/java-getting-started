@@ -1,6 +1,4 @@
 target
-.settings/
-build/
 .env
 .idea/
 *.iml

@@ -6,13 +6,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.postgresql.*;
-import org.apache.log4j.Logger;
 
 
 public class ConnectPostgres {
 	
-	final static Logger logger = Logger.getLogger(ConnectPostgres.class);
-
 	private static Connection con = null;
 	
 	public static Connection createConnection() {
@@ -30,12 +27,11 @@ public class ConnectPostgres {
 
 			
 			System.out.println("SYSO: connect to:" + dbUrl);
-			logger.info("LOG4JO: connect to:" + dbUrl);
+	        String url      = "jdbc:postgresql://ec2-54-227-252-237.compute-1.amazonaws.com:5432/d6m6n1dg2c3phr?sslmode=require&user=ffmabncveoxuow&password=e889257a35e423a552cdeb10c8dc75c11b0936dc51775de44794c49bc7da68ee";
 
 
-			return createConnection(dbUrl, username, password);
+			return createConnection(url, username, password);
 		} catch (Exception e) {
-			logger.error(e);
 			e.printStackTrace();
 			
 		}
