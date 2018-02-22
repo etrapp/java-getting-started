@@ -32,7 +32,7 @@ public class ConnectPostgres {
 	        System.err.println("***********************************URL" + dbUrl);
 
 //
-	        return createConnection(url);
+	        return createConnection(dbUrl);
 			} catch (Exception e) {
 			e.printStackTrace();
 			
