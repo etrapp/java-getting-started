@@ -6,14 +6,18 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.postgresql.*;
+import org.apache.log4j.Logger;
+
 
 public class ConnectPostgres {
 	
+	final static Logger logger = Logger.getLogger(ConnectPostgres.class);
+
 	private static Connection con = null;
 	
 	public static Connection createConnection() {
 		
-		String DB = "/d6m6n1dg2c3phr";
+	   String DB = "/d6m6n1dg2c3phr";
 	   String VARS = "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";   
 		
 		try {
@@ -24,9 +28,16 @@ public class ConnectPostgres {
 //			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + DB + VARS;
 
+			
+			System.out.println("SYSO: connect to:" + dbUrl);
+			logger.info("LOG4JO: connect to:" + dbUrl);
+
+
 			return createConnection(dbUrl, username, password);
 		} catch (Exception e) {
+			logger.error(e);
 			e.printStackTrace();
+			
 		}
 		return null;
 
