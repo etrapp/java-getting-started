@@ -84,7 +84,6 @@
 <pm:page id="listagem">
 	<pm:header title="Painel" swatch="b">
 		<p:button outcome="pm:lancamento?transition=flip" value="Voltar" icon="ui-icon-arrow-l" styleClass="ui-btn-left ui-btn-inline"  />
-		<p:button outcome="pm:reprocessar?transition=flip" value="Reprocessar" icon="ui-icon-plus" styleClass="ui-btn-rigth ui-btn-inline"></p:button>
 
 	</pm:header>
 
@@ -93,29 +92,39 @@
 <!-- 		<p:growl id="mensagem"  sticky="false" life="800" /> -->
 		
 		<p:panel header="#{painelBean.detalhePainel.nmProcesso}">
-		<p:panelGrid columns="2" rendered="true" >
+		<p:panelGrid columns="2" rendered="true">
 			<p:row>
-				<p:outputLabel value="Status:"></p:outputLabel>
+				<p:outputLabel value="Status"></p:outputLabel>
 			</p:row>
 			<p:row>		
 				<p:outputLabel value="#{painelBean.detalhePainel.status}"></p:outputLabel>
 			</p:row>
 			<p:row>		
-				<p:outputLabel value="SLA:"></p:outputLabel>
+				<p:outputLabel value="SLA"></p:outputLabel>
 			</p:row>
 			<p:row>		
-				<p:outputLabel value="81%"></p:outputLabel>
+				<p:outputLabel value="#{painelBean.detalhePainel.sla}%"></p:outputLabel>
 			</p:row>
 			<p:row>		
-				<p:outputLabel value="Etapa:"></p:outputLabel>
+				<p:outputLabel value="Etapa"></p:outputLabel>
 			</p:row>
 			<p:row>		
 				<p:outputLabel value="#{painelBean.detalhePainel.cdEtapa}"></p:outputLabel>
 			</p:row>
+			<p:row>		
+				<p:outputLabel value="Detalhe"></p:outputLabel>
+			</p:row>
+			<p:row>		
+				<p:outputLabel value="#{painelBean.detalhePainel.dsMensagem}"></p:outputLabel>
+			</p:row>
 		</p:panelGrid>
 		</p:panel>
 						
-	
+		<p:toolbar>
+		    <f:facet name="left">
+		    	<p:button outcome="pm:reprocessar?transition=flip" value="Reprocessar" icon="ui-icon-plus" styleClass="ui-btn-rigth ui-btn-inline"></p:button>
+		    </f:facet>
+		</p:toolbar>
 	
 		
 	</pm:content>

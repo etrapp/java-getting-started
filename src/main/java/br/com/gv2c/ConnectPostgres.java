@@ -95,6 +95,7 @@ public class ConnectPostgres {
 		if(con != null) {
 			try {
 				if (con.isValid(0)) {
+					System.out.println("Reutilizando conexão de banco.....");
 					return con;
 				}
 			} catch (SQLException e) {

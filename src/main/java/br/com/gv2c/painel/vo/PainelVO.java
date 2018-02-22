@@ -19,6 +19,7 @@ public class PainelVO implements Serializable {
 	private String dsMensagem;
 	private Integer cdEtapa;
 	private String usuario;
+	private Integer sla;
 	
 	public Integer getId() {
 		return id;
@@ -80,6 +81,12 @@ public class PainelVO implements Serializable {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
-	
+	public Integer getSla() {
+		return sla;
+	}
+	public void setSla(Integer sla) {
+		this.sla = sla;
+	}
+
 
 }

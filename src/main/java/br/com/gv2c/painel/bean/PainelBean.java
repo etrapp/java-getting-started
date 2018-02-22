@@ -48,6 +48,8 @@ public class PainelBean {
 
 	private Integer idEtapa;
 
+	private Integer sla;
+	
 	private StatusVO statusSelecionado;
 
 	private ProcessoVO processoSelecionado;
@@ -104,7 +106,7 @@ public class PainelBean {
 					",ps.cd_processo, ps.nm_processo " + 
 					",pn.st_processo " + 
 					",case when pn.st_processo = 1 then 'OK' else 'NOK' end as status " + 
-					",pn.cd_etapa, pn.ds_usuario, pn.ds_mensagem " + 
+					",pn.cd_etapa, pn.ds_usuario, pn.ds_mensagem, pn.sla " + 
 					"from painel.painel pn " + 
 					"inner join painel.processo ps on ps.cd_processo = pn.cd_processo order by pn.id desc");
 			while (rs.next()) {
@@ -119,6 +121,7 @@ public class PainelBean {
 				cx.setCdEtapa(rs.getInt(7));
 				cx.setUsuario(rs.getString(8));
 				cx.setDsMensagem(rs.getString(9));
+				cx.setSla(rs.getInt(10));
 				lista.add(cx);
 			}
 		} catch (Exception e) {
@@ -189,7 +192,7 @@ public class PainelBean {
 					",ps.cd_processo, ps.nm_processo " + 
 					",pn.st_processo " + 
 					",case when pn.st_processo = 1 then 'OK' else 'NOK' end as status " + 
-					",pn.cd_etapa, pn.ds_usuario, pn.ds_mensagem " + 
+					",pn.cd_etapa, pn.ds_usuario, pn.ds_mensagem, pn.sla " + 
 					"from painel.painel pn " + 
 					"inner join painel.processo ps on ps.cd_processo = pn.cd_processo " +
 //					"where pn.cd_processo =  " +processo +
@@ -207,6 +210,7 @@ public class PainelBean {
 				cx.setCdEtapa(rs.getInt(7));
 				cx.setUsuario(rs.getString(8));
 				cx.setDsMensagem(rs.getString(9));
+				cx.setSla(rs.getInt(10));
 				
 				return cx;
 			}
@@ -226,8 +230,12 @@ public class PainelBean {
 
 		Connection con = ConnectDbFactory.createConnection();
 		Statement stmt = con.createStatement();
-		String sql = "INSERT INTO painel.painel (dt_painel, cd_processo, st_processo, cd_etapa, dt_atualizacao, ds_usuario, ds_mensagem) " + 
-				" values("+dataFormatada+", "+cdProcesso+"," + stProcesso + "," +cdEtapa+", now(), '"+responsavel+"', '"+descricao+"')";
+//		String sql = "INSERT INTO painel.painel (dt_painel, cd_processo, st_processo, cd_etapa, dt_atualizacao, ds_usuario, ds_mensagem, sla) " + 
+//				" values("+dataFormatada+", "+cdProcesso+"," + stProcesso + "," +cdEtapa+", now(), '"+responsavel+"', '"+descricao+"' , " + sla +")";
+
+		String sql = "INSERT INTO painel.painel (dt_painel, cd_processo, st_processo, cd_etapa, dt_atualizacao, ds_usuario, ds_mensagem, sla) " + 
+				" values(now(), "+cdProcesso+"," + stProcesso + "," +cdEtapa+", now(), '"+responsavel+"', '"+descricao+"' , " + sla +")";
+
 		System.out.println(sql);
 		return stmt.executeUpdate(sql);
 
@@ -289,13 +297,13 @@ public class PainelBean {
 //		RequestContext context = RequestContext.getCurrentInstance(); 
 //		context.update("formModal:dlgOBS");
 //		context.execute("PF('pm:listagem?transition=flip').show();");
-        return "pm:listagem?transition=flip";
+        return "pm:listagem?transition=none";
 
 	}
 
 	
 	public void salvar() {
-		System.out.println(this.idPainel + "," + data + ","+ this.idProcesso + "," + this.idStatus + "," + this.idEtapa + "," + this.responsavel + "," + this.descricao);
+		System.out.println(this.idPainel + "," + data + ","+ this.idProcesso + "," + this.idStatus + "," + this.sla + "," + this.idEtapa + "," + this.responsavel + "," + this.descricao);
 
 		//Validacoes
 		if(this.idProcesso== null) {
@@ -310,11 +318,7 @@ public class PainelBean {
 			FacesUtil.exibirMensagemInfo("Informe a etapa");
 			return;
 		}
-		if(this.responsavel == null) {
-			FacesUtil.exibirMensagemInfo("Informe o usuario");
-			return;
-		}
-		
+
 		if(painelSelecionado != null){
 			this.idPainel=painelSelecionado.getId();
 		}
@@ -373,6 +377,7 @@ public class PainelBean {
 		this.idStatus=null;
 		this.responsavel=null;
 		this.descricao=null;
+		this.sla=null;
 		painelSelecionado=null;
 		statusSelecionado=null;
 	}
@@ -547,6 +552,14 @@ public class PainelBean {
 
 	public void setDetalhePainel(PainelVO detalhePainel) {
 		this.detalhePainel = detalhePainel;
+	}
+
+	public Integer getSla() {
+		return sla;
+	}
+
+	public void setSla(Integer sla) {
+		this.sla = sla;
 	}
 
 	

@@ -1,30 +1,144 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
-<h:head></h:head> 
+<h:head>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<title>Painel - Status dos Processos</title>
+	<link rel="icon" type="image/ico" href="images/favicon.ico" />
+
+	<style type="text/css">
+		.ui-panelgrid > * > tr, .ui-panelgrid > * > tr > td.ui-panelgrid-cell {
+	    	border: none;
+		}
+	</style>
+</h:head>
 <h:body>
 
 	<div id="divPanel" class="container" >
+			<p:panel id="panel-signup" header="Cadastro - Painel Web" resizable="false">
+				<h:form  id="lancamento" >
+<!-- 					<p:messages id="mensagens" autoUpdate="true" closable="true" /> -->
+				    <p:growl id="mensagens" sticky="false" life="4000" />  
+					<p:panelGrid columns="4" cellpadding="4">
+					
+					<p:row>  
+						<p:outputLabel for="processo" value="Processo" />			    
+					</p:row>
+					<p:row>
+				        <p:selectOneMenu id="processo" value="#{painelBean.idProcesso}">
+				        	<f:selectItem itemLabel="Selecione" itemValue="" />
+				            <f:selectItems value="#{painelBean.listaProcesso}" var="tpProcesso" itemLabel="#{tpProcesso.nome}" itemValue="#{tpProcesso.id}" />
+				        </p:selectOneMenu>
+					</p:row>
+					<p:row>
+						<p:outputLabel for="status" value="Status" />
+					</p:row>
+					<p:row>
+				        <p:selectOneRadio  id="status" value="#{painelBean.idStatus}">
+				            <f:selectItem itemLabel="OK" itemValue="1" />
+				            <f:selectItem itemLabel="NOK" itemValue="2" />
+				        </p:selectOneRadio>					
+				    </p:row>
+					<p:row>
+						<p:outputLabel for="sla" value="SLA" />
+					</p:row>
+					<p:row>
+						<p:autoComplete id="sla" value="#{painelBean.sla}" maxlength="3" title="SLA"></p:autoComplete>
+					</p:row>
+					<p:row>
+						<p:outputLabel for="etapa" value="Etapa" />
+					</p:row>
+					<p:row>
+				        <p:selectOneRadio  id="etapa" value="#{painelBean.idEtapa}">
+				            <f:selectItem itemLabel="1" itemValue="1" />
+				            <f:selectItem itemLabel="2" itemValue="2" />
+				            <f:selectItem itemLabel="3" itemValue="3" />
+				            <f:selectItem itemLabel="4" itemValue="4" />
+				        </p:selectOneRadio>					
+					</p:row>
+					<p:row>
+						<p:outputLabel for="descricao" value="Descrição" />
+					</p:row>
+					<p:row style="collspan=2">		
+						<p:inputText id="descricao" value="#{painelBean.descricao}" maxlength="100" title="descrição" autocomplete="false" ></p:inputText>
+					</p:row>
 	
-	<label>descricao1</label>
-	<input id="descricao" value="#{listagemBean.grade}" maxlength="100" title="descricao"></input>
+
+					</p:panelGrid>
+					<br></br>
+					<p:commandButton id="botao_salvar" value="Salvar" action="#{painelBean.salvar()}" ajax="true" update="mensagens,botao_salvar,resultado,@form" onclick="jQuery(this).addClass('ui-state-disabled')"/>
+					&nbsp;
+					<p:commandButton id="botao_limpar" value="Limpar" action="#{painelBean.limparFormulario()}" ajax="true" update="mensagens,botao_limpar,resultado,@form" onclick="jQuery(this).addClass('ui-state-disabled')"/>
+				</h:form>
+
+			</p:panel>
+	</div>
 	
 	
-	<h:outputLabel value="Descrição2" for="descricao"/>
-	<h:inputText id="descricao" value="#{listagemBean.grade}" maxlength="100" title="descricao"></h:inputText>
-	
-	
-	<p:outputLabel for="responsavel" value="Responsavel" />
-	<p:autoComplete id="responsavel" value="#{listagemBean.grade}" maxlength="20" title="Responsável"></p:autoComplete>
-	
-	
+	<div id="lista" class="conteudo">
+			
+			<p:outputPanel id="resultado">
+
+				<div>
+					<center>
+					<p:panel id="panel-listagem" header="Listagem de Status dos Processos" resizable="false">
+
+					<div>
+						<p:dataTable id="dtPendentes" value="#{painelBean.listarItensPainel()}" var="obj" 
+							styleClass="table table-striped" resizeMode="expand" emptyMessage="Sem registros"				
+        					scrollable="true" scrollWidth="100%" scrollHeight="350"
+        					paginator="true" rows="15" 
+                 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+                 			currentPageReportTemplate="Exibindo {startRecord}-{endRecord} de {totalRecords}"
+                 			lazy="true" paginatorAlwaysVisible="false">						
+
+
+							<p:column headerText="Data" exportable="true" width="100">
+								<h:outputText id="outDt" value="#{obj.data}">
+									<f:convertDateTime pattern="dd/MM/yyyy"/>
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Processo" exportable="true" width="100" >
+								<h:outputText id="outProcesso" value="#{obj.nmProcesso}"/>	
+							</p:column>
+
+							<p:column headerText="Status" exportable="true" width="100" >
+								<h:outputText id="outStatus" value="#{obj.status}"/>	
+							</p:column>
+							
+							<p:column headerText="SLA" exportable="true" width="100" >
+								<h:outputText id="outSla" value="#{obj.sla}"/>	
+							</p:column>
+							
+							<p:column headerText="Etapa" exportable="true" width="80"  >
+								<h:outputText id="outEtapa" value="#{obj.cdEtapa}"/>	
+							</p:column>
+																					
+							<p:column headerText="Mensagem" exportable="true" width="100" >
+								<h:outputText id="outMensagem" value="#{obj.dsMensagem}"/>	
+							</p:column>
+							
+							
+						</p:dataTable>
+
+					</div>
+					</p:panel>
+					</center>
+					
+				</div>
+				
+			</p:outputPanel>
+			
 	</div>
 
 
 </h:body>
-
 </html>
