@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.postgresql.*;
 
 public class ConnectPostgres {
 	
@@ -12,12 +13,16 @@ public class ConnectPostgres {
 	
 	public static Connection createConnection() {
 		
+		   private static final String DB = "/d6m6n1dg2c3phr";
+		   private static final String VARS = "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";   
+		
 		try {
 			URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
 			String username = dbUri.getUserInfo().split(":")[0];
 			String password = dbUri.getUserInfo().split(":")[1];
-			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+//			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + DB + VARS;
 
 			return createConnection(dbUrl, username, password);
 		} catch (Exception e) {
