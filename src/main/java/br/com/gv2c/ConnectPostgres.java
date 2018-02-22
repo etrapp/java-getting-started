@@ -13,31 +13,83 @@ public class ConnectPostgres {
 	private static Connection con = null;
 	
 	public static Connection createConnection() {
+		System.out.println("SYSO: connect to: DB");
 		
-	   String DB = "/d6m6n1dg2c3phr";
-	   String VARS = "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";   
+//	   String DB = "/d6m6n1dg2c3phr";
+//	   String VARS = "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";   
 		
 		try {
 			URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
+	        System.err.println("************* URI:" + dbUri.toASCIIString());
+
 			String username = dbUri.getUserInfo().split(":")[0];
 			String password = dbUri.getUserInfo().split(":")[1];
-//			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + DB + VARS;
+			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+//			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + DB + VARS;
 
 			
-			System.out.println("SYSO: connect to:" + dbUrl);
-	        String url      = "jdbc:postgresql://ec2-54-227-252-237.compute-1.amazonaws.com:5432/d6m6n1dg2c3phr?sslmode=require&user=ffmabncveoxuow&password=e889257a35e423a552cdeb10c8dc75c11b0936dc51775de44794c49bc7da68ee";
+	        System.err.println("***********************************URL" + dbUrl);
 
-
-			return createConnection(url, username, password);
-		} catch (Exception e) {
+//
+	        return createConnection(url);
+			} catch (Exception e) {
 			e.printStackTrace();
 			
 		}
 		return null;
 
 	}
+
+	
+	public static Connection createConnectionX() {
+
+		try {
+			String url = "jdbc:postgresql://ec2-54-227-252-237.compute-1.amazonaws.com:5432/d6m6n1dg2c3phr?sslmode=require&user=ffmabncveoxuow&password=e889257a35e423a552cdeb10c8dc75c11b0936dc51775de44794c49bc7da68ee";
+			return createConnection(url);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return null;
+
+	}
+	
+	public static Connection createConnection(String url) {
+		if(con != null) {
+			try {
+				if (con.isValid(0)) {
+					return con;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Where is your Postgres JDBC Driver?");
+			e.printStackTrace();
+		}
+
+		try {
+			con = DriverManager.getConnection(url);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		if (con != null) {
+//			System.out.println("You made it, take control your database now!");
+
+		} else {
+//			System.out.println("Failed to make connection!");
+		}
+		return con;
+	}
+
 	
 	public static Connection createConnection(String url, String user, String passwd) {
 		if(con != null) {
