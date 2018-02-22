@@ -13,8 +13,8 @@ public class ConnectPostgres {
 	
 	public static Connection createConnection() {
 		
-		   private static final String DB = "/d6m6n1dg2c3phr";
-		   private static final String VARS = "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";   
+		String DB = "/d6m6n1dg2c3phr";
+	   String VARS = "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";   
 		
 		try {
 			URI dbUri = new URI(System.getenv("DATABASE_URL"));
