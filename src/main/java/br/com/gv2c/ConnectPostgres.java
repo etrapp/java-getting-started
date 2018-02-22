@@ -13,7 +13,7 @@ public class ConnectPostgres {
 		
 		String dbUrl = System.getenv("JDBC_DATABASE_URL");
 		
-		return createConnection(url);
+		return createConnection(dbUrl);
 
 	}
 	
@@ -76,7 +76,7 @@ public class ConnectPostgres {
             Class.forName(driver);
             Connection con = null;
             con = (Connection) DriverManager.getConnection(url, user, senha);
-            System.out.println("Conexão realizada com sucesso.");
+            System.out.println("Conexao realizada com sucesso.");
 //            teste(con);
         }
         catch (ClassNotFoundException ex)
